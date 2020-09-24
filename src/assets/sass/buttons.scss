@@ -1,0 +1,13 @@
+.buttons {
+	button {
+		background: transparent;
+		color: #fff;
+		border: 0;
+		padding: 15px 20px;
+		border-radius: 0;
+
+		&.ON {
+			background: #1d1d1d;
+		}
+	}
+}

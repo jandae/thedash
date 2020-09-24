@@ -18,7 +18,8 @@ import axios from 'axios'
 
 let options = {				
 				layout: {
-					padding: 20
+					padding: 20,
+					fontFamily: 'futura'
 				},
 				plugins: {
 					datalabels: {
@@ -26,7 +27,8 @@ let options = {
 						textAlign: 'center',
 						font: {
 							weight: "normal",
-							size: 12
+							size: 12,
+							family: 'futura'
 						}
 					}
 				},
@@ -62,9 +64,10 @@ let options = {
 				}
 			}
 
-let lat = '16.32'
-let lon = '120.73'
-let weather_api = ''
+let lat = process.env.VUE_APP_LAT
+let lon = process.env.VUE_APP_LON
+let appId = process.env.VUE_APP_WEATHER_APP_ID
+let weather_api = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=minutely,daily&units=metric&appid=${appId}`
 
 export default {		
 	props: ['page'],

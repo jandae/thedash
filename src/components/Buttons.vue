@@ -21,6 +21,8 @@
 <script>
 import axios from 'axios'
 
+let power_strip = process.env.VUE_APP_POWER_STRIP_URL
+
 export default {		
 	components: {		
 	},
@@ -32,14 +34,15 @@ export default {
 	methods: {
 		getStripStates: function () {
 			axios
-				.get('http://192.168.100.15/cm?cmnd=State')
+				.get(`${power_strip}/cm?cmnd=State`)
 				.then(response => {
 					this.strip_states = response.data
 				})
 		},
 		buttonClick: function (button) {			
+			console.log('button')
 			axios
-				.get('http://192.168.100.15/cm?cmnd='+button+'%20TOGGLE')
+				.get(`${power_strip}/cm?cmnd=${button}%20TOGGLE`)
 				.then(response => {
 					let res = response.data					
 					this.strip_states[button] = res[button]
@@ -53,17 +56,5 @@ export default {
 </script>
 
 <style lang="scss">
-.buttons {
-	button {
-		background: transparent;
-		color: #fff;
-		border: 0;
-		padding: 15px 20px;
-		border-radius: 0;
-
-		&.ON {
-			background: #1d1d1d;
-		}
-	}
-}
+@import "@/assets/sass/buttons.scss";
 </style>

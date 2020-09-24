@@ -17,7 +17,7 @@
 </template>
 
 <script>
-let server_api = 'http://192.168.100.36:1880'
+let server_api = process.env.VUE_APP_SENSOR_SERVER_URL
 
 import {Carousel, Slide} from 'vue-carousel';
 import axios from 'axios'
@@ -28,10 +28,8 @@ import weather from './Weather'
 
 import ChartDataLabels from 'chartjs-plugin-datalabels'; 
 import * as moment from "moment/moment";
-import styles from '../assets/sass/dash.module.scss'
 
 ChartDataLabels
-styles
 
 let options = {				
 				layout: {
@@ -218,54 +216,6 @@ export default {
 
 
 <style lang="scss">	
-	.VueCarousel-inner {
-	transition: none !important;
-	}
-
-	.VueCarousel-slide {
-	transition: all 2s;
-	opacity: 0 !important;
-	}
-
-	.VueCarousel-slide-active {
-	opacity: 1 !important;
-	}
-	.temp-section {
-		display: flex;
-		text-align: center;
-		align-content: center;
-		justify-content: center;
-		flex-direction: column;
-
-		span {
-			margin: 5px 0;
-		}
-
-		.temps {
-			display: flex;
-			justify-content: space-between;
-
-			.today {
-				display: flex;
-				align-items: center;
-				.current {
-					font-size: 40px;
-					margin-right: 10px;
-				}
-				.humidity {
-					font-size: 40px;
-					margin: 0 5px;
-				}
-			}
-
-			.all {
-				display: flex;
-				text-align: right;
-
-				div {
-					margin-left: 5px
-				}
-			}
-		}
-	}
-</style>
+	@import '@/assets/sass/main.scss';	
+	@import '@/assets/sass/temp_section.scss';
+</style>	
