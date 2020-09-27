@@ -21,8 +21,45 @@ body {
 .VueCarousel-slide {
     transition: all 2s;
     opacity: 0 !important;
+
+    img {
+        width: 100%;
+    }
 }
 
 .VueCarousel-slide-active {
     opacity: 1 !important;
+}
+
+
+.layers {
+    position: relative;
+    overflow: hidden;
+    .layer-0 {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 300px;
+
+        .image-slider {
+            &:before {
+                content: '';
+                background: rgba(0, 0, 0, .25);
+                width: 100%;
+                height: 100%;
+                position: absolute;
+                left: 0;
+                top: 0;
+                display: block;
+                z-index: 1;
+            }
+        }
+        
+    }
+    
+    .layer-1 {
+        z-index: 2;
+        position: relative;
+    }
 }
