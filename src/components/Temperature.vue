@@ -34,7 +34,7 @@
 <script>
 import axios from 'axios'
 
-let server_api = process.env.VUE_APP_SENSOR_SERVER_URL
+let server_api = process.env.VUE_APP_RED_SERVER_URL
 
 export default {	
     props: [

@@ -1,23 +1,38 @@
 <template>
-	<div>							
-		<temperature :maxmin_all="maxmin_all" :maxmin_all_h="maxmin_all_h" :maxmin_today="maxmin_today" :maxmin_today_h="maxmin_today_h" />	
-		<carousel :per-page="1" :loop="true" :autoplay="true" :speed="100" :autoplayTimeout=6000 @pageChange="changeStuff">
-			<slide>				
-				<chart v-if="temps_formatted.temps.labels.length > 0" :height="100" :chart-data="temps_formatted.temps" :options="chart_options_temp" :change="page"/>		
-				<chart v-if="temps_formatted.humidities.labels.length > 0" :height="100" :chart-data="temps_formatted.humidities" :options="chart_options_hum" :change="page"/>
-				<label>Limit: <input type="number" v-model="limit"></label>
-			</slide>
-			<slide>
-				<weather :page="page"/>	
-			</slide>
-		</carousel>
+	<div class="main">	
+		<div class="top-bar">
+			<temperature :maxmin_all="maxmin_all" :maxmin_all_h="maxmin_all_h" :maxmin_today="maxmin_today" :maxmin_today_h="maxmin_today_h" />	
+			<div class="date-time">
+				{{current_date}}
+
+				{{current_time}}
+			</div>
+		</div>						
+		<div class="layers">
+			<div class="layer-1">
+				<carousel :per-page="1" :loop="true" :autoplay="true" :speed="100" :autoplayTimeout=6000 @pageChange="changeStuff"  :paginationEnabled="false">
+					<slide>				
+						<chart v-if="temps_formatted.temps.labels.length > 0" :height="100" :chart-data="temps_formatted.temps" :options="chart_options_temp" :change="page"/>		
+						<chart v-if="temps_formatted.humidities.labels.length > 0" :height="100" :chart-data="temps_formatted.humidities" :options="chart_options_hum" :change="page"/>
+						<label>Limit: <input type="number" v-model="limit"></label>
+					</slide>
+					<slide>
+						<weather :page="page"/>	
+					</slide>
+				</carousel>
+			</div>
+
+			<div class="layer-0">
+				<imageslider/>
+			</div>
+		</div>
 		
 		<buttons/>
 	</div>
 </template>
 
 <script>
-let server_api = process.env.VUE_APP_SENSOR_SERVER_URL
+let server_api = process.env.VUE_APP_RED_SERVER_URL
 
 import {Carousel, Slide} from 'vue-carousel';
 import axios from 'axios'
@@ -25,6 +40,7 @@ import chart from './Chart'
 import buttons from './Buttons'
 import temperature from './Temperature'
 import weather from './Weather'
+import imageslider from './ImageSlider'
 
 import ChartDataLabels from 'chartjs-plugin-datalabels'; 
 import * as moment from "moment/moment";
@@ -81,7 +97,7 @@ let options = {
 
 export default {	
 	components: {
-		chart, buttons, temperature, weather, Carousel, Slide
+		chart, buttons, temperature, weather, Carousel, Slide, imageslider
 	},
 	data () {
 		return {			
@@ -94,7 +110,9 @@ export default {
 			maxmin_all_h: [],
 			maxmin_today: [],							
 			maxmin_today_h: [],		
-			page: 0					
+			page: 0,
+			current_time: '',
+			current_date: moment().format('MMM D'),
 		}
 	},
 	methods: {
@@ -120,18 +138,29 @@ export default {
 		},
 		changeStuff: function (page) {			
 			this.page = page
+		},
+		setCurrentTime() {
+			let now = moment()							
+			this.current_time = now.format('h:mm')			
 		}		
 	},
 	mounted() {
-		this.getTemps()						
+		this.getTemps()		
+		this.setCurrentTime()	
+		
+		
 
-		document.getElementsByClassName('VueCarousel-slide')[0].classList.add('VueCarousel-slide-active');
+		document.getElementsByClassName('VueCarousel-slide')[0].classList.add('VueCarousel-slide-active');		
 
 		let $this = this				
 
 		setInterval(function(){
 			$this.getTemps()				
 		}, 1800000) // 30 mins		
+
+		setInterval(function(){
+			$this.setCurrentTime()				
+		}, 60000) // 1 min
 	},
 	computed: {
 		temps_formatted() {
@@ -209,7 +238,7 @@ export default {
 		},
 		limit () {			
 			this.getTemps()
-		}
+		}		
 	}
 }
 </script>
