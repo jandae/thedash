@@ -1,11 +1,12 @@
 <template>
-<div class="temp-section" v-if="current.temperature">
+<div class="temp-section">
+	{{loaded}}
     <div class="temps">
         <div class="today">
             <div class="current">
                 {{current.temperature}}&deg;C
             </div>
-            <div>
+            <!-- <div>
                 <div>{{max_today}}&deg;</div>
                 <div>{{min_today}}&deg;</div>
             </div>
@@ -15,16 +16,16 @@
             <div>
                 <div>{{max_today_h}}%</div>
                 <div>{{min_today_h}}%</div>
-            </div>
+            </div> -->
         </div>
         <div class="all">				
             <div>
-                <div>{{max_all}}&deg;</div>
-                <div>{{min_all}}&deg;</div>				
+                <div>{{maxmin_all.temperature.max}}&deg;</div>
+                <div>{{maxmin_all.temperature.min}}&deg;</div>				
             </div>				
             <div>
-                <div>{{max_all_h}}%</div>
-                <div>{{min_all_h}}%</div>				
+                <div>{{maxmin_all.humidity.max}}%</div>
+                <div>{{maxmin_all.humidity.min}}%</div>				
             </div>				
         </div>
     </div>					    
@@ -36,27 +37,27 @@ import axios from 'axios'
 
 let server_api = process.env.VUE_APP_RED_SERVER_URL
 
-export default {	
-    props: [
-        'maxmin_all',
-        'maxmin_all_h',
-        'maxmin_today',
-        'maxmin_today_h'
-    ],	
+export default {		    
 	components: {		
 	},
 	data () {
 		return {			
-            current: {}
+			current: {},
+			loaded: false,
+			maxmin_all: this.$store.state.max_min_all,			
+			maxmin_today: this.$store.state.max_min_today,			
         }
 	},
 	methods: {
 		getCurrent: function () {
 			axios
-				.get(server_api + '/temp')
+				.get(`${server_api}/temp`)
 				.then(response => {                    
 					this.current = response.data					
-                })
+					this.$store.commit('setCurrentTemp', response.data)
+                }).finally(() => {
+					this.loaded = true
+				})
         }
 	},
 	mounted () {	        
@@ -68,34 +69,11 @@ export default {
 		}, 120000) // 2 mins
     },
     computed: {		
-		max_all() {
-			return this.maxmin_all[0][0]
-		},
-		min_all() {
-			return this.maxmin_all[1][0]
-		},
-		max_all_h() {
-			return this.maxmin_all_h[0][1]
-		},
-		min_all_h() {
-			return this.maxmin_all_h[1][1]
-		},
-		max_today() {
-			return this.maxmin_today[0][0]
-		},
-		min_today() {
-			return this.maxmin_today[1][0]
-		},
-		max_today_h() {
-			return this.maxmin_today_h[0][1]
-		},
-		min_today_h() {
-			return this.maxmin_today_h[1][1]
-		}
+		
 	},
 }
 </script>
 
 <style lang="scss">
-
+	@import '@/assets/sass/temp_section.scss';
 </style>
