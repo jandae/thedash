@@ -1,8 +1,19 @@
 import Vue from 'vue'
 import App from './App.vue'
 import Vuex from 'vuex'
+import VueGAPI from 'vue-gapi'
 
 Vue.use(Vuex)
+
+const config = {
+	apiKey: process.env.VUE_APP_GAPI_KEY, //console.developers.google.com/apis/credentials
+	clientId: process.env.VUE_APP_GAPI_CID,
+	scope: 'https://www.googleapis.com/auth/fitness.activity.read', //https://developers.google.com/fit/rest/v1/reference/users/dataSources/get
+	discoveryDocs: [ 'https://fitness.googleapis.com/$discovery/rest?version=v1' ], //https://www.googleapis.com/discovery/v1/apis#
+	refreshToken: true,
+}
+
+Vue.use(VueGAPI, config)
 
 const store = new Vuex.Store({
 	state: {

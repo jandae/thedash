@@ -5,7 +5,8 @@
 </template>
 
 <script>
-import Dash from './components/Dash.vue'
+// import Dash from './components/Dash.vue'
+import Dash from './components/Google/FitnessSlide.vue'
 
 export default {
   name: 'App',
