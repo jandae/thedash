@@ -8,7 +8,23 @@ const store = new Vuex.Store({
 	state: {
 		current_temp: [],
 		max_min_all: {},
-		max_min_today: {}    
+		max_min_today: {},
+		maxmin_loaded: false,
+		count: 0  
+	},
+	getters: {
+		currentTemp: state => {
+			return state.current_temp
+		},
+		maxMinAll: state => {
+			return state.max_min_all
+		},
+		maxMinToday: state => {
+			return state.max_min_today
+		},
+		maxMinLoaded: state => {
+			return state.maxmin_loaded
+		},
 	},
 	mutations: {
 		setCurrentTemp (state, val) {
@@ -24,7 +40,7 @@ const store = new Vuex.Store({
 					max: hums[0][1],
 					min: hums[1][1]
 				}
-			}
+			}			
 		},
 		setMaxMinToday (state, {temps, hums}) {
 			state.max_min_today = {
@@ -37,7 +53,24 @@ const store = new Vuex.Store({
 					min: hums[1][1]
 				}
 			}
-		}
+		},
+		setMaxMinLoaded (state, val) {
+			state.maxmin_loaded = val
+		},
+	},
+	actions: {
+		setCurrentTemp (context, data) {			
+			context.commit('setCurrentTemp', data)
+		},
+		setMaxMinAll (context, data) {			
+			context.commit('setMaxMinAll', data)
+		},
+		setMaxMinToday (context, data) {			
+			context.commit('setMaxMinToday', data)
+		},
+		setMaxMinLoaded (context, val) {
+			context.commit('setMaxMinLoaded', val)
+		},
 	}
 })
 

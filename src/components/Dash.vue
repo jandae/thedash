@@ -50,8 +50,7 @@ export default {
 			limit: 10,						
 			page: 0,
 			current_time: '',
-			current_date: moment().format('MMM D'),
-			current_temp: this.$store.state.current_temp
+			current_date: moment().format('MMM D'),						
 		}
 	},
 	methods: {
