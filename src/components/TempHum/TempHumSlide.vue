@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="temp-hum-slide">
 		<h2>Inside</h2>
 		<div>
 			{{currentTemp.temperature}}&deg;
@@ -32,8 +32,8 @@
 			</div>
 		</div>
 
-        <chart v-if="temps_formatted.temps.labels.length > 0" :height="100" :chart-data="temps_formatted.temps" :options="chart_options_temp" :change="page"/>		
-        <chart v-if="temps_formatted.humidities.labels.length > 0" :height="100" :chart-data="temps_formatted.humidities" :options="chart_options_hum" :change="page"/>
+        <chart class="temps-chart" v-if="temps_formatted.temps.labels.length > 0" :height="100" :chart-data="temps_formatted.temps" :options="chart_options_temp" :change="page"/>		
+        <chart class="hums-chart" v-if="temps_formatted.humidities.labels.length > 0" :height="100" :chart-data="temps_formatted.humidities" :options="chart_options_hum" :change="page"/>
         <label>Limit: <input type="number" v-model="limit"></label>        
     </div>
 </template>
@@ -76,7 +76,11 @@ let options = {
 						},
 						scaleLabel: {
 							display: false
-						},						
+						},			
+						ticks: {
+							fontColor: '#fff',
+							fontFamily: 'futura'
+						},			
 
 					}],
 					yAxes: [{
@@ -137,8 +141,6 @@ export default {
 					this.setMaxMinAll({temps: max_min_all, hums: maxmin_all_h})
 					this.setMaxMinToday({temps: maxmin_today, hums: maxmin_today_h})
 					this.setMaxMinLoaded(true)					
-					
-					console.log('commited')
 				}).finally(() => {
 					this.loaded = true					
 				})
@@ -208,8 +210,8 @@ export default {
 				datasets: [
 					{
 						label: 'Temperature',						
-						borderColor: 'rgba(50, 115, 220, 0.5)',
-						backgroundColor: 'rgba(50, 115, 220, 0.1)',
+						borderColor: 'rgba(57, 175, 89, 0.5)',
+						backgroundColor: 'rgba(57, 175, 89, 0.1)',
 						data: []
 					}					
 				],
@@ -289,3 +291,7 @@ export default {
 	}
 }
 </script>
+
+<style lang="scss">
+	@import '@/assets/sass/temp_slide.scss';
+</style>

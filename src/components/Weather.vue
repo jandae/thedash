@@ -3,7 +3,7 @@
 	<div v-if="has_loaded">		
 		<h1>{{current_weather}}</h1>
 		<p>{{current_description}}</p>
-		<p>Temp: {{current.temp}}&deg;</p>
+		<p>Temperature: {{current.temp}}&deg;</p>
 		<p>Humidity: {{current.humidity}}%</p>
 	</div>
 
@@ -45,8 +45,11 @@ let options = {
 						},
 						scaleLabel: {
 							display: false
+						},			
+						ticks: {
+							fontColor: '#fff',
+							fontFamily: 'futura'
 						},						
-
 					}],
 					yAxes: [{
 						gridLines: {
