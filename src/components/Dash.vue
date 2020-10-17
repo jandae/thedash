@@ -11,6 +11,9 @@
 		<div class="layers">
 			<div class="layer-1">
 				<carousel :per-page="1" :loop="true" :autoplay="true" :speed="100" :autoplayTimeout=6000 @pageChange="changeStuff"  :paginationEnabled="false" :autoplayHoverPause="false">
+					<slide>
+						<calendar :page="page"/>	
+					</slide>
 					<slide>				
 						<temp-hum-slide :page="page"/>
 					</slide>
@@ -38,10 +41,11 @@ import TempHum from './TempHum/TempHum'
 import TempHumSlide from './TempHum/TempHumSlide'
 import Weather from './Weather'
 import ImageSlider from './ImageSlider'
+import Calendar from './CalendarSlide'
 
 export default {	
 	components: {
-		Buttons, TempHum, Weather, Carousel, Slide, ImageSlider, TempHumSlide
+		Buttons, TempHum, Weather, Carousel, Slide, ImageSlider, TempHumSlide, Calendar
 	},
 	data () {
 		return {			

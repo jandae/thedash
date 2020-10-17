@@ -1,0 +1,27 @@
+.calendar-slide {
+    .vc-container.vc-is-dark {
+        background: transparent;
+        border-color: transparent;
+
+        .vc-title {
+            font-size: 30px;
+        }
+
+        .vc-weekday {
+            font-size: 20px;
+        }
+
+        .vc-day-box-center-center {
+            height: 70px;
+
+            .vc-highlight {
+                width: 51px;
+                height: 51px;
+            }
+
+            .vc-day-content {
+                font-size: 31px;
+            }
+        }
+    }
+}
