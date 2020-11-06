@@ -1,18 +1,18 @@
 <template>
-<div class="buttons">			
-	<button :class="strip_states.POWER1" v-on:click="buttonClick('POWER1')">				
+<div class="buttons">
+	<button :class="strip_states.POWER1" v-on:click="buttonClick(1, strip_states.POWER1)">
 		{{strip_states.POWER1}}
 	</button>
-	<button :class="strip_states.POWER2" v-on:click="buttonClick('POWER2')">	
+	<button :class="strip_states.POWER2" v-on:click="buttonClick(2, strip_states.POWER2)">
 		{{strip_states.POWER2}}
 	</button>
-	<button :class="strip_states.POWER3" v-on:click="buttonClick('POWER3')">	
+	<button :class="strip_states.POWER3" v-on:click="buttonClick(3, strip_states.POWER3)">
 		{{strip_states.POWER3}}
 	</button>
-	<button :class="strip_states.POWER4" v-on:click="buttonClick('POWER4')">	
+	<button :class="strip_states.POWER4" v-on:click="buttonClick(4, strip_states.POWER4)">
 		{{strip_states.POWER4}}
 	</button>
-	<button :class="strip_states.POWER5" v-on:click="buttonClick('POWER5')">	
+	<button :class="strip_states.POWER5" v-on:click="buttonClick(5, strip_states.POWER5)">
 		{{strip_states.POWER5}}
 	</button>
 </div>
@@ -21,32 +21,35 @@
 <script>
 import axios from 'axios'
 
-let power_strip = process.env.VUE_APP_POWER_STRIP_URL
+let server_api = process.env.VUE_APP_RED_SERVER_URL
 
-export default {		
-	components: {		
+export default {
+	components: {
 	},
 	data () {
-		return {			
+		return {
 			strip_states: []
         }
 	},
 	methods: {
 		getStripStates: function () {
 			axios
-				.get(`${power_strip}/cm?cmnd=State`)
+				.get(`${server_api}/strip/states`)
 				.then(response => {
 					this.strip_states = response.data
 				})
 		},
-		buttonClick: function (button) {			
-			console.log('button')
+		buttonClick: function (button, current) {
 			axios
-				.get(`${power_strip}/cm?cmnd=${button}%20TOGGLE`)
-				.then(response => {
-					let res = response.data					
-					this.strip_states[button] = res[button]
+				.get(`${server_api}/power/${button}`)
+				.then(() => {
+
 				})
+			if (current == 'ON') {
+				this.strip_states[`POWER${button}`] = 'OFF'
+			} else {
+				this.strip_states[`POWER${button}`] = 'ON'
+			}
 		}
 	},
 	mounted () {
