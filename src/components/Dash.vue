@@ -1,24 +1,24 @@
 <template>
-	<div class="main">	
-		<div class="top-bar">						
-			<temp-hum/>	
+	<div class="main">
+		<div class="top-bar">
+			<temp-hum/>
 			<div class="date-time">
 				{{current_date}}
 
 				{{current_time}}
 			</div>
-		</div>						
+		</div>
 		<div class="layers">
 			<div class="layer-1">
-				<carousel :per-page="1" :loop="true" :autoplay="true" :speed="100" :autoplayTimeout=6000 @pageChange="changeStuff"  :paginationEnabled="false" :autoplayHoverPause="false">
+				<carousel :per-page="1" :loop="true" :autoplay="false" :speed="100" :autoplayTimeout=6000 @pageChange="changeStuff"  :paginationEnabled="false" :autoplayHoverPause="false">
 					<slide>
-						<calendar :page="page"/>	
-					</slide>
-					<slide>				
 						<temp-hum-slide :page="page"/>
 					</slide>
 					<slide>
-						<weather :page="page"/>	
+						<weather :page="page"/>
+					</slide>
+					<slide>
+						<calendar :page="page"/>
 					</slide>
 				</carousel>
 			</div>
@@ -27,7 +27,7 @@
 				<image-slider/>
 			</div>
 		</div>
-		
+
 		<buttons/>
 	</div>
 </template>
@@ -43,45 +43,45 @@ import Weather from './Weather'
 import ImageSlider from './ImageSlider'
 import Calendar from './CalendarSlide'
 
-export default {	
+export default {
 	components: {
 		Buttons, TempHum, Weather, Carousel, Slide, ImageSlider, TempHumSlide, Calendar
 	},
 	data () {
-		return {			
+		return {
 			temps_data: [],
-			loaded: false,				
-			limit: 10,						
+			loaded: false,
+			limit: 10,
 			page: 0,
 			current_time: '',
-			current_date: moment().format('MMM D'),						
+			current_date: moment().format('MMM D'),
 		}
 	},
 	methods: {
-		changeStuff: function (page) {			
+		changeStuff: function (page) {
 			this.page = page
 		},
 		setCurrentTime() {
-			let now = moment()							
-			this.current_time = now.format('h:mm')			
-		}		
+			let now = moment()
+			this.current_time = now.format('h:mm')
+		}
 	},
-	mounted() {		
-		this.setCurrentTime()		
+	mounted() {
+		this.setCurrentTime()
 
-		document.getElementsByClassName('VueCarousel-slide')[0].classList.add('VueCarousel-slide-active');		
+		document.getElementsByClassName('VueCarousel-slide')[0].classList.add('VueCarousel-slide-active');
 	},
-	computed: {				
+	computed: {
 	},
-	watch: {		
-		limit () {			
+	watch: {
+		limit () {
 			this.getTemps()
-		}		
+		}
 	}
 }
 </script>
 
 
-<style lang="scss">	
-	@import '@/assets/sass/main.scss';		
-</style>	
+<style lang="scss">
+	@import '@/assets/sass/main.scss';
+</style>
