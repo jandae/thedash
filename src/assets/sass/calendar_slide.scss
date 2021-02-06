@@ -6,23 +6,23 @@
         border-color: transparent;
 
         .vc-title {
-            font-size: 30px;
-        }
-
-        .vc-weekday {
             font-size: 20px;
         }
 
+        .vc-weekday {
+            font-size: 15px;
+        }
+
         .vc-day-box-center-center {
-            height: 70px;
+            height: 40px;
 
             .vc-highlight {
-                width: 51px;
-                height: 51px;
+                width: 30px;
+                height: 30px;
             }
 
             .vc-day-content {
-                font-size: 31px;
+                font-size: 20px;
             }
         }
     }

@@ -40,7 +40,7 @@
 
         <chart class="temps-chart" v-if="temps_formatted.temps.labels.length > 0" :height="100" :chart-data="temps_formatted.temps" :options="chart_options_temp" :change="page"/>
         <chart class="hums-chart" v-if="temps_formatted.humidities.labels.length > 0" :height="100" :chart-data="temps_formatted.humidities" :options="chart_options_hum" :change="page"/>
-        <label>Limit: <input type="number" v-model="limit"></label>
+        <!-- <label>Limit: <input type="number" v-model="limit"></label> -->
     </div>
 </template>
 

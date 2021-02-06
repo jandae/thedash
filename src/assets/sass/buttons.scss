@@ -2,7 +2,10 @@
 	display: flex;
     width: 100%;
 	justify-content: space-between;
-	
+	position: fixed;
+    bottom: 0;
+    left: 0;
+    
 	button {
 		background: transparent;
 		color: #fff;

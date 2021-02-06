@@ -70,13 +70,13 @@ const store = new Vuex.Store({
 		},
 		setMaxMinLoaded (context, val) {
 			context.commit('setMaxMinLoaded', val)
-		},
+		}
 	}
 })
 
 Vue.config.productionTip = false
 
-new Vue({
+var vm = new Vue({ // eslint-disable-line no-unused-vars
 	el: '#app',
 	store: store,
 	template: '<App />',

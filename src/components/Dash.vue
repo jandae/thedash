@@ -1,16 +1,22 @@
 <template>
 	<div class="main">
 		<div class="top-bar">
-			<temp-hum/>
-			<div class="date-time">
-				{{current_date}}
-
-				{{current_time}}
-			</div>
+			<div>
+                <div class="date-time" @click="refresh()">
+                    {{current_date}}
+                    {{current_time}}
+                </div>    
+                <temp-hum/>
+            </div>
+            <div class="slider-nav">
+                <div @click="goToSlide(0)">1</div>
+                <div @click="goToSlide(1)">2</div>
+                <div @click="goToSlide(2)">3</div>                 
+            </div>
 		</div>
 		<div class="layers">
 			<div class="layer-1">
-				<carousel :per-page="1" :loop="true" :autoplay="false" :speed="100" :autoplayTimeout=6000 @pageChange="changeStuff"  :paginationEnabled="false" :autoplayHoverPause="false">
+				<carousel :per-page="1" :loop="true" :autoplay="true" :speed="100" :autoplayTimeout=6000 @pageChange="changeStuff"  :paginationEnabled="false" :autoplayHoverPause="false" :navigateTo="current_slide">
 					<slide>
 						<temp-hum-slide :page="page"/>
 					</slide>
@@ -55,6 +61,7 @@ export default {
 			page: 0,
 			current_time: '',
 			current_date: moment().format('MMM D'),
+            current_slide: 0
 		}
 	},
 	methods: {
@@ -64,7 +71,13 @@ export default {
 		setCurrentTime() {
 			let now = moment()
 			this.current_time = now.format('h:mm')
-		}
+		},
+        goToSlide: function (index) {
+            this.current_slide = index
+        },
+        refresh: function () {
+            location.reload()
+        }
 	},
 	mounted() {
 		this.setCurrentTime()

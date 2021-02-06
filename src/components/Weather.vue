@@ -1,10 +1,14 @@
 <template>
-<div>
+<div class="weather-slide">
 	<div v-if="has_loaded" class="weather-text">
-		<h1>{{current_weather}}</h1>
-		<p>{{current_description}}</p>
-		<p>Temperature: {{current.temp}}&deg;</p>
-		<p>Humidity: {{current.humidity}}%</p>
+        <div>
+            <h1>{{current_weather}}</h1>
+            <p>{{current_description}}</p>
+        </div>
+        <div>
+            <p>Temperature: {{current.temp}}&deg;</p>
+            <p>Humidity: {{current.humidity}}%</p>
+        </div>
 	</div>
 
 	<chart class="chart" v-if="hourly_formatted.labels.length > 0" :height="100" :chart-data="hourly_formatted" :options="options" :change="page"/>
@@ -154,12 +158,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.chart {
-	// position: absolute;
-	// bottom: 0;
-	// left: 0;
-}
-.weather-text {
-	position: absolute;
-}
+	@import '@/assets/sass/weather_slide.scss';
 </style>
