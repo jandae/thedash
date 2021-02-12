@@ -54,6 +54,11 @@ export default {
 	},
 	mounted () {
 		this.getStripStates()
+		let $this = this
+
+		setInterval(() => {
+			$this.getStripStates()
+		}, 60000)
 	}
 }
 </script>
