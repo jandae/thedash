@@ -22,9 +22,10 @@
 			color: #1d1d1d;
 		}
 
-		&:active {
-			opacity: 0.8;
-			transform: scale(0.8);
+		&:active, &:hover {
+			background: #4a4a4a;
+			opacity: 0.6;
+			transform: scale(0.6);
 		}
 	}
 }
