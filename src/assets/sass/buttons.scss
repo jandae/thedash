@@ -7,14 +7,24 @@
     left: 0;
     
 	button {
+		font-family: futura;
 		background: transparent;
+		opacity: 1;
 		color: #fff;
 		border: 0;
 		padding: 15px 20px;
 		border-radius: 0;
+		outline: none;
+		transition: transform 1s, opacity 1s;
 
 		&.ON {
-			background: #1d1d1d;
+			background: #fff;
+			color: #1d1d1d;
+		}
+
+		&:active {
+			opacity: 0.8;
+			transform: scale(0.8);
 		}
 	}
 }

@@ -4,6 +4,7 @@ body {
     font-family: Arial, Helvetica, sans-serif;
     margin: 0;
     padding: 0;
+    cursor: none;
 
     input {
         background: transparent;
@@ -23,8 +24,18 @@ body {
     .slider-nav {
         display: flex;
         
-        & > div { 
-            padding: 15px;
+        & > button { 
+            outline: none;
+            border: 0;
+            padding: 20px;
+            background: transparent;
+            color: #fff;
+            font-family: futura;
+
+            &:active {
+                opacity: 0.8;
+                transform: scale(0.8);
+            }
         }
     }
 }

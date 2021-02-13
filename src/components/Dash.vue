@@ -9,10 +9,10 @@
                 <temp-hum/>
             </div>
             <div class="slider-nav">
-                <div @click="goToSlide(0)">1</div>
-                <div @click="goToSlide(1)">2</div>
-                <div @click="goToSlide(2)">3</div>                 
-				<div @click="goToSlide(3)">4</div>        
+                <button @click="goToSlide(0)">1</button>
+                <button @click="goToSlide(1)">2</button>
+                <button @click="goToSlide(2)">3</button>                 
+				<button @click="goToSlide(3)">4</button>        
             </div>
 		</div>
 		<div class="layers">
