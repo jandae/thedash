@@ -12,6 +12,7 @@
                 <div @click="goToSlide(0)">1</div>
                 <div @click="goToSlide(1)">2</div>
                 <div @click="goToSlide(2)">3</div>                 
+				<div @click="goToSlide(3)">4</div>        
             </div>
 		</div>
 		<div class="layers">
@@ -25,6 +26,9 @@
 					</slide>
 					<slide>
 						<calendar :page="page"/>
+					</slide>
+					<slide>
+						<printer :page="page"/>
 					</slide>
 				</carousel>
 			</div>
@@ -48,10 +52,11 @@ import TempHumSlide from './TempHum/TempHumSlide'
 import Weather from './Weather'
 import ImageSlider from './ImageSlider'
 import Calendar from './CalendarSlide'
+import Printer from './Printer'
 
 export default {
 	components: {
-		Buttons, TempHum, Weather, Carousel, Slide, ImageSlider, TempHumSlide, Calendar
+		Buttons, TempHum, Weather, Carousel, Slide, ImageSlider, TempHumSlide, Calendar, Printer
 	},
 	data () {
 		return {
