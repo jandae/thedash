@@ -1,3 +1,5 @@
+@import 'mixins';
+
 body {
     background: #131313;
     color: #fff;
@@ -31,12 +33,8 @@ body {
             background: transparent;
             color: #fff;
             font-family: futura;
-
-            &:active, &:hover {
-                background: #4a4a4a;
-                opacity: 0.6;
-                transform: scale(0.6);
-            }
+            
+            @include pressable;
         }
     }
 }

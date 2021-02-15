@@ -1,20 +1,38 @@
 <template>
-<div class="buttons">
-	<button :class="strip_states.POWER1" v-on:click="buttonClick(1, strip_states.POWER1)">
-		{{strip_states.POWER1}}
+<div class="buttons">			
+	<button :class="states.POWER1" v-on:click="action('strip', 1)">
+		<img :src="'icons/charge.png'"/>
 	</button>
-	<button :class="strip_states.POWER2" v-on:click="buttonClick(2, strip_states.POWER2)">
-		{{strip_states.POWER2}}
+	<button :class="states.POWER2" v-on:click="action('strip', 2)">
+		<img :src="'icons/lamp.png'"/>
 	</button>
-	<button :class="strip_states.POWER3" v-on:click="buttonClick(3, strip_states.POWER3)">
-		{{strip_states.POWER3}}
+	<button :class="tv" v-on:click="action('tv','toggle')">
+		<img :src="'icons/tv.png'"/>
 	</button>
-	<button :class="strip_states.POWER4" v-on:click="buttonClick(4, strip_states.POWER4)">
-		{{strip_states.POWER4}}
+	<div class="fan trio">
+		<button :class="'speed'" v-on:click="action('fan','speed')">
+			<img :src="'icons/speed.png'"/>
+		</button>
+		<button :class="states.fan" v-on:click="action('fan','toggle')">
+			<img :src="'icons/fan.png'"/>
+		</button>	
+		<div class="speed-indicator">			
+			<span v-for="i in 3" :key="i" :class="{'active':i-1 < states.speed}"></span>			
+		</div>		
+	</div>
+	<button :class="{'ON':states.swing == 'ON'}" :disabled="states.fan != 'ON'" v-on:click="action('fan','swing')">
+		<img :src="'icons/swing.png'"/>
+	</button>	
+	<button :class="{'ON':states.cool == 'ON'}" :disabled="states.fan != 'ON'" v-on:click="action('fan','cool')">
+		<img :src="'icons/cool.png'"/>
 	</button>
-	<button :class="strip_states.POWER5" v-on:click="buttonClick(5, strip_states.POWER5)">
-		{{strip_states.POWER5}}
+	<button v-on:click="action('sleep')">
+		<img :src="'icons/sleep.png'"/>
 	</button>
+	
+	<!-- <button :class="strip_states.POWER5" v-on:click="buttonClick(5, strip_states.POWER5)">
+		<img :src="'icons/fan.png'"/>
+	</button> -->
 </div>
 </template>
 
@@ -28,36 +46,34 @@ export default {
 	},
 	data () {
 		return {
-			strip_states: []
+			strip_states: [],
+			fan: 'OFF',
+			tv: 'OFF',
+			states: {}
         }
 	},
 	methods: {
-		getStripStates: function () {
+		getStates: function () {
 			axios
-				.get(`${server_api}/strip/states`)
+				.get(`${server_api}/states`)
 				.then(response => {
-					this.strip_states = response.data
+					this.states = response.data					
 				})
 		},
-		buttonClick: function (button, current) {
+		action: function (device, action) {			
 			axios
-				.get(`${server_api}/power/${button}`)
-				.then(() => {
-
+				.get(`${server_api}/${device}/${action}`)
+				.then(response => {				
+					this.states = response.data									
 				})
-			if (current == 'ON') {
-				this.strip_states[`POWER${button}`] = 'OFF'
-			} else {
-				this.strip_states[`POWER${button}`] = 'ON'
-			}
 		}
 	},
 	mounted () {
-		this.getStripStates()
+		this.getStates()
 		let $this = this
 
 		setInterval(() => {
-			$this.getStripStates()
+			$this.getStates()
 		}, 60000)
 	}
 }
