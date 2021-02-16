@@ -1,5 +1,5 @@
 <template>
-	<div class="main">
+	<div class="main">		
 		<div class="top-bar">
 			<div>
                 <div class="date-time" @click="refresh()">
@@ -38,6 +38,8 @@
 			</div>
 		</div>
 
+		<video-feed/>
+
 		<buttons/>
 	</div>
 </template>
@@ -53,10 +55,11 @@ import Weather from './Weather'
 import ImageSlider from './ImageSlider'
 import Calendar from './CalendarSlide'
 import Printer from './Printer'
+import VideoFeed from './VideoFeed'
 
 export default {
 	components: {
-		Buttons, TempHum, Weather, Carousel, Slide, ImageSlider, TempHumSlide, Calendar, Printer
+		Buttons, TempHum, Weather, Carousel, Slide, ImageSlider, TempHumSlide, Calendar, Printer, VideoFeed
 	},
 	data () {
 		return {
@@ -66,7 +69,7 @@ export default {
 			page: 0,
 			current_time: '',
 			current_date: moment().format('MMM D'),
-            current_slide: 0
+            current_slide: 0,			
 		}
 	},
 	methods: {
@@ -82,12 +85,12 @@ export default {
         },
         refresh: function () {
             location.reload()
-        }
+        },		
 	},
 	mounted() {
 		this.setCurrentTime()
 
-		document.getElementsByClassName('VueCarousel-slide')[0].classList.add('VueCarousel-slide-active');
+		document.getElementsByClassName('VueCarousel-slide')[0].classList.add('VueCarousel-slide-active');		
 	},
 	computed: {
 	},

@@ -6,7 +6,7 @@
 	<button :class="states.POWER2" v-on:click="action('strip', 2)">
 		<img :src="'icons/lamp.png'"/>
 	</button>
-	<button :class="tv" v-on:click="action('tv','toggle')">
+	<button :class="states.tv" v-on:click="action('tv','toggle')">
 		<img :src="'icons/tv.png'"/>
 	</button>
 	<div class="fan trio">
@@ -61,6 +61,7 @@ export default {
 				})
 		},
 		action: function (device, action) {			
+			action = action ? action : ''
 			axios
 				.get(`${server_api}/${device}/${action}`)
 				.then(response => {				
