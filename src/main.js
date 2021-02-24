@@ -1,6 +1,9 @@
 import Vue from 'vue'
 import App from './App.vue'
 import Vuex from 'vuex'
+import axios from 'axios'
+
+let server_api = process.env.VUE_APP_RED_SERVER_URL
 
 Vue.use(Vuex)
 
@@ -10,7 +13,10 @@ const store = new Vuex.Store({
 		max_min_all: {},
 		max_min_today: {},
 		maxmin_loaded: false,
-		count: 0  
+		count: 0,
+		states: [] ,
+		vid_vis: false ,
+		panel_vis: false
 	},
 	getters: {
 		currentTemp: state => {
@@ -24,6 +30,15 @@ const store = new Vuex.Store({
 		},
 		maxMinLoaded: state => {
 			return state.maxmin_loaded
+		},
+		states: state => {
+			return state.states
+		},
+		vidVis: state => {
+			return state.vid_vis
+		},		
+		panelVis: state => {
+			return state.panel_vis
 		},
 	},
 	mutations: {
@@ -57,6 +72,31 @@ const store = new Vuex.Store({
 		setMaxMinLoaded (state, val) {
 			state.maxmin_loaded = val
 		},
+		setStates (state, val) {
+			state.states = val
+		},
+		setVidVis (state, val) {			
+			if (typeof(val) == "undefined") {
+				state.vid_vis = !state.vid_vis
+			} else {
+				state.vid_vis = val
+			}			
+		},
+		setPanelVis (state, val) {			
+			if (typeof(val) == "undefined") {
+				state.panel_vis = !state.panel_vis
+			} else {
+				state.panel_vis = val
+			}			
+		},
+		action (state, {device, action}) {			
+			action = action ? action : ''
+			axios
+				.get(`${server_api}/${device}/${action}`)
+				.then(response => {				
+					state.states = response.data												
+				})
+		}
 	},
 	actions: {
 		setCurrentTemp (context, data) {			
@@ -70,6 +110,18 @@ const store = new Vuex.Store({
 		},
 		setMaxMinLoaded (context, val) {
 			context.commit('setMaxMinLoaded', val)
+		},
+		setStates (context, val) {
+			context.commit('setStates', val)
+		},
+		setVidVis (context, val) {		
+			context.commit('setVidVis', val)				
+		},
+		action (context, val) {			
+			context.commit('action', val)	
+		},
+		setPanelVis (context, val) {			
+			context.commit('setPanelVis', val)	
 		}
 	}
 })

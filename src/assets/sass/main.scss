@@ -23,6 +23,19 @@ body {
     display: flex;
     justify-content: space-between;
     
+    .date-time {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        p {
+            margin: 0;
+        }
+
+        .time {            
+            font-size: 1.7em;
+        }
+    }
+
     .slider-nav {
         display: flex;
         
@@ -35,8 +48,18 @@ body {
             font-family: futura;
             
             @include pressable;
+
+            &.panel-button {
+                padding: 8px 5px;                
+                img {
+                    -webkit-filter: invert(100%);
+    		        filter: invert(100%);
+                    width: 40px;
+                }                
+            }
         }
     }
+
 }
 
 
@@ -89,10 +112,12 @@ body {
     }
 }
 .feed-wrap {
-    position: absolute;
-    left: -90px;
-    top: 5px;
-    z-index: 4;    
+    position: fixed;
+    left: 120px;
+    top: 2px;
+    z-index: 4;
+    display: flex;
+    justify-content: center;
 
     .feed {
         transform: scale(0.7);        

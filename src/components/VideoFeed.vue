@@ -1,12 +1,13 @@
 <template>							
-	<div class="feed-wrap">			
-        <iframe class="feed" v-if="motion && show_motion" :src="video_url" height="100%"></iframe>
+	<div class="feed-wrap" v-if="motion || vidVis">			
+        <iframe class="feed" :src="video_url" height="100%"></iframe>
         <button class="close" @click="hideMotion()">X</button>
     </div>		
 </template>
 
 <script>
 import axios from 'axios'
+import { mapGetters, mapActions } from 'vuex'
 
 let server_api = process.env.VUE_APP_RED_SERVER_URL
 let video_feed = process.env.VUE_APP_VIDEO_URL
@@ -16,24 +17,24 @@ export default {
 	},
 	data () {
 		return {	
-			motion: 0,
-			show_motion: true,		
+			motion: 0,			
             video_url: video_feed		
 		}
 	},
 	methods: {
+		...mapActions([			
+			'setVidVis'			
+		]),
         isMotion: function () {
 			axios
 				.get(`${server_api}/motion/status`)
 				.then(response => {
-					this.motion = response.data					
+					this.motion = response.data	
 				})
 		},
-		hideMotion: function () {
-			this.show_motion = false
-			setTimeout(() => {
-				this.show_motion = true
-			}, 35000)
+		hideMotion: function () {			
+			this.setVidVis(false)			
+
 		}
 	},
 	mounted() {
@@ -45,7 +46,9 @@ export default {
 		}, 5000)
 	},
 	computed: {
-			
+		...mapGetters([
+            'vidVis'        
+        ])	
 	},
 	watch: {
 		

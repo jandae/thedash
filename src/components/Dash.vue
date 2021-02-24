@@ -1,18 +1,21 @@
 <template>
 	<div class="main">		
-		<div class="top-bar">
-			<div>
-                <div class="date-time" @click="refresh()">
-                    {{current_date}}
-                    {{current_time}}
-                </div>    
-                <temp-hum/>
-            </div>
+		<div class="top-bar">			
+			<temp-hum/>            
+			<div class="date-time" @click="refresh()">
+				<p class="time">
+					{{current_time}}
+				</p>
+				<p class="date">
+					{{current_date}}
+				</p>
+			</div>    			
             <div class="slider-nav">
                 <button @click="goToSlide(0)">1</button>
                 <button @click="goToSlide(1)">2</button>
                 <button @click="goToSlide(2)">3</button>                 
-				<button @click="goToSlide(3)">4</button>        
+				<button v-if="states.plug1 == 'ON'" @click="goToSlide(3)">4</button>        
+				<button class="panel-button" @click="setPanelVis()"><img src="/icons/panel.png"/></button>
             </div>
 		</div>
 		<div class="layers">
@@ -27,7 +30,7 @@
 					<slide>
 						<calendar :page="page"/>
 					</slide>
-					<slide>
+					<slide v-if="states.plug1 == 'ON'">
 						<printer :page="page"/>
 					</slide>
 				</carousel>
@@ -40,6 +43,8 @@
 
 		<video-feed/>
 
+		<button-panel/>
+
 		<buttons/>
 	</div>
 </template>
@@ -47,6 +52,7 @@
 <script>
 import {Carousel, Slide} from 'vue-carousel';
 import * as moment from "moment/moment";  // eslint-disable-line no-unused-vars
+import { mapGetters, mapActions } from 'vuex'
 
 import Buttons from './Buttons'
 import TempHum from './TempHum/TempHum'
@@ -56,10 +62,11 @@ import ImageSlider from './ImageSlider'
 import Calendar from './CalendarSlide'
 import Printer from './Printer'
 import VideoFeed from './VideoFeed'
+import ButtonPanel from './ButtonPanel'
 
 export default {
 	components: {
-		Buttons, TempHum, Weather, Carousel, Slide, ImageSlider, TempHumSlide, Calendar, Printer, VideoFeed
+		Buttons, TempHum, Weather, Carousel, Slide, ImageSlider, TempHumSlide, Calendar, Printer, VideoFeed, ButtonPanel
 	},
 	data () {
 		return {
@@ -68,17 +75,20 @@ export default {
 			limit: 10,
 			page: 0,
 			current_time: '',
-			current_date: moment().format('MMM D'),
+			current_date: moment().format('MMMM D'),
             current_slide: 0,			
 		}
 	},
 	methods: {
+		...mapActions([
+            'setPanelVis'        
+        ]),
 		changeStuff: function (page) {
 			this.page = page
 		},
 		setCurrentTime() {
 			let now = moment()
-			this.current_time = now.format('h:mm')
+			this.current_time = now.format('h:mm a')
 		},
         goToSlide: function (index) {
             this.current_slide = index
@@ -90,9 +100,16 @@ export default {
 	mounted() {
 		this.setCurrentTime()
 
+		setInterval(() =>{
+			this.setCurrentTime()
+		}, 5000)
+
 		document.getElementsByClassName('VueCarousel-slide')[0].classList.add('VueCarousel-slide-active');		
 	},
 	computed: {
+		...mapGetters([
+            'states'        
+        ])
 	},
 	watch: {
 		limit () {
