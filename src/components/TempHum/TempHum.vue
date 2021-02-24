@@ -9,13 +9,13 @@
                 <div>{{maxMinToday.temperature.max}}&deg;</div>
                 <div>{{maxMinToday.temperature.min}}&deg;</div>
             </div>
-            <div class="humidity">
+            <!-- <div class="humidity">
                 {{current.humidity}}%
             </div>
             <div>
                 <div>{{maxMinToday.humidity.max}}%</div>
                 <div>{{maxMinToday.humidity.min}}%</div>
-            </div>
+            </div> -->
         </div>        
     </div>					    
 </div>	
