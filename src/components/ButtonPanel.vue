@@ -1,14 +1,22 @@
 <template>							
-	<div class="button-panel" v-if="panelVis">		
-		<div v-for="(b, k) in buttons" :key="k">			
+	<div class="button-panel">		
+		<div v-for="(b, k) in states" :key="k">			
 			<span>{{k}}</span>
 			<template v-if="k.includes('strip')">
 				<button @click="callAction(`strip/${k}`, 'ON')">ON</button>
 				<button @click="callAction(`strip/${k}`, 'OFF')">OFF</button>
 			</template>
-			<template v-else-if="k.includes('fan')">
-				<button @click="callAction(`fan/${k}`, 'ON')">ON</button>
-				<button @click="callAction(`fan/${k}`, 'OFF')">OFF</button>
+			<template v-else-if="fan_stuff.includes(k)">
+				<template v-if="k != 'speed'">
+					<button @click="callAction(`fan/${k}`, 'ON')">State ON</button>
+					<button @click="callAction(`fan/${k}`, 'OFF')">State OFF</button>
+					<button @click="callAction(`fan/${k}`, 'TOGGLE')">TOGGLE</button>
+				</template>
+				<template v-else>
+					<button @click="callAction(`fan/${k}`, '1')">1</button>
+					<button @click="callAction(`fan/${k}`, '2')">2</button>
+					<button @click="callAction(`fan/${k}`, '3')">3</button>
+				</template>
 			</template>
 			<template v-else>
 				<button @click="callAction(k, 'ON')">ON</button>
@@ -19,16 +27,14 @@
 </template>
 
 <script>
-import axios from 'axios'
 import { mapGetters, mapActions } from 'vuex'
-
-let server_api = process.env.VUE_APP_RED_SERVER_URL
 
 export default {	
 	components: {		
 	},
 	data () {
 		return {	
+			fan_stuff: ['speed', 'swing', 'cool'],
 			buttons: []
 		}
 	},
@@ -36,13 +42,6 @@ export default {
 		...mapActions([			
 			'action'			
 		]),
-        getButtons: function () {
-			axios
-				.get(`${server_api}/states`)
-				.then(response => {
-					this.buttons = response.data	
-				})
-		},
 		hideMotion: function () {			
 			this.setVidVis(false)			
 
@@ -51,8 +50,7 @@ export default {
 			this.action({device, action})
 		}
 	},
-	mounted() {
-		this.getButtons()
+	mounted() {		
 		// let $this = this
 
 		// setInterval(() => {
@@ -61,7 +59,8 @@ export default {
 	},
 	computed: {
 		...mapGetters([
-            'panelVis'        
+            'panelVis', 
+			'states'        
         ])	
 	},
 	watch: {

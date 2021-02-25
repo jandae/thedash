@@ -1,5 +1,5 @@
 <template>
-<div class="buttons">			
+<div class="buttons">				
 	<button :class="states.strip1" v-on:click="action('strip/strip1', 'toggle')">
 		<img :src="'icons/charge.png'"/>
 	</button>
@@ -32,15 +32,11 @@
 	<button v-on:click="action('sleep')">
 		<img :src="'icons/sleep.png'"/>
 	</button>
-	
-	<!-- <button :class="strip_states.POWER5" v-on:click="buttonClick(5, strip_states.POWER5)">
-		<img :src="'icons/fan.png'"/>
-	</button> -->
 </div>
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 import axios from 'axios'
 
 let server_api = process.env.VUE_APP_RED_SERVER_URL
@@ -49,42 +45,44 @@ export default {
 	components: {
 	},
 	data () {
-		return {
-			strip_states: [],
+		return {			
 			fan: 'OFF',
-			tv: 'OFF',
-			states: {}
+			tv: 'OFF'			
         }
 	},
 	methods: {
 		...mapActions([
 			'setStates', 
 			'setVidVis'			
-		]),
+		]),		
 		getStates: function () {
 			axios
 				.get(`${server_api}/states`)
 				.then(response => {
-					this.states = response.data					
+					this.setStates(response.data)			
 				})
 		},
 		action: function (device, action) {			
 			action = action ? action : ''
 			axios
 				.get(`${server_api}/${device}/${action}`)
-				.then(response => {				
-					this.states = response.data				
-					this.setStates(this.states)					
+				.then(response => {											
+					this.setStates(response.data)					
 				})
 		}
 	},
-	mounted () {
-		this.getStates()
+	mounted () {	
+		this.getStates()	
 		let $this = this
 
 		setInterval(() => {
 			$this.getStates()
 		}, 60000)
+	},
+	computed: {		
+		...mapGetters([
+			'states'        
+		]),
 	}
 }
 </script>

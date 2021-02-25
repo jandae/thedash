@@ -14,8 +14,8 @@
                 <button @click="goToSlide(0)">1</button>
                 <button @click="goToSlide(1)">2</button>
                 <button @click="goToSlide(2)">3</button>                 
-				<button v-if="states.plug1 == 'ON'" @click="goToSlide(3)">4</button>        
-				<button class="panel-button" @click="setPanelVis()"><img src="/icons/panel.png"/></button>
+				<button v-if="states.octopi == 'ON'" @click="goToSlide(3)">4</button>        
+				<button class="panel-button" :class="{'active': panelVis}" @click="setPanelVis()"><img src="/icons/panel.png"/></button>
             </div>
 		</div>
 		<div class="layers">
@@ -30,7 +30,7 @@
 					<slide>
 						<calendar :page="page"/>
 					</slide>
-					<slide v-if="states.plug1 == 'ON'">
+					<slide v-if="states.octopi == 'ON'">
 						<printer :page="page"/>
 					</slide>
 				</carousel>
@@ -43,7 +43,7 @@
 
 		<video-feed/>
 
-		<button-panel/>
+		<button-panel v-if="panelVis"/>
 
 		<buttons/>
 	</div>
@@ -108,7 +108,8 @@ export default {
 	},
 	computed: {
 		...mapGetters([
-            'states'        
+            'states',
+			'panelVis'        
         ])
 	},
 	watch: {
