@@ -1,8 +1,8 @@
 <template>
 	<div class="main">		
-		<div class="top-bar">			
-			<temp-hum/>            
-			<div class="date-time" @click="refresh()">
+		<div class="top-bar">						
+			<temp-hum/>            			
+			<div class="date-time" @click="goToSlide(2)">
 				<p class="time">
 					{{current_time}}
 				</p>
@@ -10,17 +10,15 @@
 					{{current_date}}
 				</p>
 			</div>    			
-            <div class="slider-nav">
-                <button @click="goToSlide(0)">1</button>
-                <button @click="goToSlide(1)">2</button>
-                <button @click="goToSlide(2)">3</button>                 
+            <div class="slider-nav">				                
 				<button v-if="states.octopi == 'ON'" @click="goToSlide(3)">4</button>        
-				<button class="panel-button" :class="{'active': panelVis}" @click="setPanelVis()"><img src="/icons/panel.png"/></button>
+				<button @click="setPanelVis()" class="panel-button icon-btn" :class="{'active': panelVis}"><img src="/icons/play.png"/></button>
+				<span @click="goToSlide(1)" class="outside">{{outsideTemp}}&deg;</span>        
             </div>
 		</div>
 		<div class="layers">
-			<div class="layer-1">
-				<carousel :per-page="1" :loop="true" :autoplay="true" :speed="100" :autoplayTimeout=6000 @pageChange="changeStuff"  :paginationEnabled="false" :autoplayHoverPause="false" :navigateTo="current_slide">
+			<div class="layer-1" @click="autoplay = true">
+				<carousel :per-page="1" :loop="true" :autoplay="autoplay" :speed="100" :autoplayTimeout=6000 @pageChange="changeStuff"  :paginationEnabled="false" :autoplayHoverPause="false" :navigateTo="currentSlide">
 					<slide>
 						<temp-hum-slide :page="page"/>
 					</slide>
@@ -77,11 +75,13 @@ export default {
 			current_time: '',
 			current_date: moment().format('MMMM D'),
             current_slide: 0,			
+			autoplay: true
 		}
 	},
 	methods: {
 		...mapActions([
-            'setPanelVis'        
+            'setPanelVis',
+			'setCurrentSlide'   
         ]),
 		changeStuff: function (page) {
 			this.page = page
@@ -90,12 +90,14 @@ export default {
 			let now = moment()
 			this.current_time = now.format('h:mm a')
 		},
-        goToSlide: function (index) {
-            this.current_slide = index
-        },
-        refresh: function () {
-            location.reload()
-        },		
+        goToSlide: function (index) {			
+            this.current_slide = index						
+
+			//finish animation first
+			setTimeout(() => {
+				this.autoplay = false
+			}, 2000)
+        }
 	},
 	mounted() {
 		this.setCurrentTime()
@@ -108,13 +110,18 @@ export default {
 	},
 	computed: {
 		...mapGetters([
+			'outsideTemp',
             'states',
-			'panelVis'        
+			'panelVis',
+			'currentSlide'        
         ])
 	},
 	watch: {
 		limit () {
 			this.getTemps()
+		},
+		current_slide () {
+			this.setCurrentSlide(this.current_slide)
 		}
 	}
 }

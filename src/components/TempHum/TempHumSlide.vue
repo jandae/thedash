@@ -2,11 +2,23 @@
     <div class="temp-hum-slide">
 		<div>
 			<h2>Inside</h2>
-			<div>
-				{{currentTemp.temperature}}&deg;
-				{{currentTemp.humidity}}%
+			<div class="current-temp-hum">
+				<div class="current-temp">
+					<span>{{currentTemp.temperature}}&deg;</span>
+					<div v-if="today_formatted.temperature">
+						<p>{{today_formatted.temperature.max}}&deg; - {{today_formatted.temperature.max_time}}</p>
+						<p>{{today_formatted.temperature.min}}&deg; - {{today_formatted.temperature.min_time}}</p>
+					</div>
+				</div>
+				<div>
+					<span>{{currentTemp.humidity}}%</span>
+					<div v-if="today_formatted.humidity">
+						<p>{{today_formatted.humidity.max}}% - {{today_formatted.humidity.max_time}}</p>
+						<p>{{today_formatted.humidity.min}}% - {{today_formatted.humidity.min_time}}</p>
+					</div>
+				</div>
 			</div>
-		</div>
+		</div>		
 
 		<div>
 			<h2>All Time</h2>
@@ -19,21 +31,6 @@
 				<div v-if="all_formatted.humidity">
 					<p>{{all_formatted.humidity.max}}% - {{all_formatted.humidity.max_date}} {{all_formatted.humidity.max_time}}</p>
 					<p>{{all_formatted.humidity.min}}% - {{all_formatted.humidity.min_date}} {{all_formatted.humidity.min_time}}</p>
-				</div>
-			</div>
-		</div>
-
-		<div>
-			<h2>Today</h2>
-			<div>
-				<div v-if="today_formatted.temperature">
-					<p>{{today_formatted.temperature.max}}&deg; - {{today_formatted.temperature.max_time}}</p>
-					<p>{{today_formatted.temperature.min}}&deg; - {{today_formatted.temperature.min_time}}</p>
-				</div>
-
-				<div v-if="today_formatted.humidity">
-					<p>{{today_formatted.humidity.max}}% - {{today_formatted.humidity.max_time}}</p>
-					<p>{{today_formatted.humidity.min}}% - {{today_formatted.humidity.min_time}}</p>
 				</div>
 			</div>
 		</div>

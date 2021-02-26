@@ -1,5 +1,6 @@
 <template>							
 	<div class="button-panel">		
+		<button @click="refresh()">Refresh</button>
 		<div v-for="(b, k) in states" :key="k">			
 			<span>{{k}}</span>
 			<template v-if="k.includes('strip')">
@@ -48,7 +49,10 @@ export default {
 		},
 		callAction: function (device, action) {
 			this.action({device, action})
-		}
+		},
+        refresh: function () {
+            location.reload()
+        },
 	},
 	mounted() {		
 		// let $this = this

@@ -1,4 +1,5 @@
 @import 'mixins';
+@import 'variables';
 
 .buttons {
 	display: flex;
@@ -8,6 +9,7 @@
     bottom: 0;
     left: 0;
 	z-index: 5;
+	background: $darkgray;
     
 	button {
 		font-family: futura;

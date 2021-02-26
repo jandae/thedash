@@ -1,5 +1,7 @@
+@import 'variables';
+
 .calendar-slide {
-    max-height: 420px;
+    max-height: $slide_height;
 
     .vc-container.vc-is-dark {
         background: transparent;

@@ -1,13 +1,14 @@
 <template>
 <div class="weather-slide">
 	<div v-if="has_loaded" class="weather-text">
-        <div>
+        <div class="temp-hum">
+            <p>{{current.temp}}&deg;</p>
+            <p>{{current.humidity}}%</p>
+        </div>
+        <div class="weather-info">
             <h1>{{current_weather}}</h1>
             <p>{{current_description}}</p>
-        </div>
-        <div>
-            <p>Temperature: {{current.temp}}&deg;</p>
-            <p>Humidity: {{current.humidity}}%</p>
+			<p>{{hourly_formatted.datasets[0].data[0]}}% chance of Rain</p>
         </div>
 	</div>
 
@@ -19,6 +20,7 @@
 import chart from './Chart'
 import * as moment from "moment/moment";
 import axios from 'axios'
+import { mapActions } from 'vuex'
 
 let options = {
 				layout: {
@@ -93,6 +95,9 @@ export default {
         }
 	},
 	methods: {
+		...mapActions([			
+			'setOutsideTemp'			
+		]),
 		getWeather: function () {
 			axios
 				.get(weather_api)
@@ -100,6 +105,7 @@ export default {
 					if (response.status == 200) {
 						let data = response.data
 						this.current = data.current
+						this.setOutsideTemp(this.current.temp)								
 						this.current_weather = data.current.weather[0].main
 						this.current_description = data.current.weather[0].description
 						this.hourly = data.hourly
@@ -111,6 +117,11 @@ export default {
 	},
 	created () {
 		this.getWeather()
+		let $this = this
+
+		setInterval(() => {
+			$this.getWeather()
+		}, (60000*60))
 	},
 	computed: {
 		hourly_formatted() {

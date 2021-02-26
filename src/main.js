@@ -16,12 +16,17 @@ const store = new Vuex.Store({
 		count: 0,
 		states: [] ,
 		vid_vis: false ,
-		panel_vis: false
+		panel_vis: false,
+		outside_temp: '',
+		current_slide: 0
 	},
 	getters: {
 		currentTemp: state => {
 			return state.current_temp
 		},
+		outsideTemp: state => {
+			return state.outside_temp
+		},		
 		maxMinAll: state => {
 			return state.max_min_all
 		},
@@ -39,6 +44,9 @@ const store = new Vuex.Store({
 		},		
 		panelVis: state => {
 			return state.panel_vis
+		},
+		currentSlide: state => {
+			return state.current_slide
 		},
 	},
 	mutations: {
@@ -72,6 +80,9 @@ const store = new Vuex.Store({
 		setMaxMinLoaded (state, val) {
 			state.maxmin_loaded = val
 		},
+		setOutsideTemp (state, val) {			
+			state.outside_temp = val.toFixed(1)
+		},
 		setStates (state, val) {
 			state.states = val
 		},
@@ -96,7 +107,11 @@ const store = new Vuex.Store({
 				.then(response => {				
 					state.states = response.data												
 				})
-		}
+		},
+		setCurrentSlide (state, val) {						
+			state.current_slide = val
+		},
+
 	},
 	actions: {
 		setCurrentTemp (context, data) {			
@@ -110,6 +125,9 @@ const store = new Vuex.Store({
 		},
 		setMaxMinLoaded (context, val) {
 			context.commit('setMaxMinLoaded', val)
+		},		
+		setOutsideTemp (context, val) {			
+			context.commit('setOutsideTemp', val)	
 		},
 		setStates (context, val) {
 			context.commit('setStates', val)
@@ -122,6 +140,9 @@ const store = new Vuex.Store({
 		},
 		setPanelVis (context, val) {			
 			context.commit('setPanelVis', val)	
+		},
+		setCurrentSlide (context, val) {						
+			context.commit('setCurrentSlide', val)	
 		}
 	}
 })

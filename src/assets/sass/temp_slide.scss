@@ -1,8 +1,24 @@
+@import 'variables';
+
 .temp-hum-slide {
     position: relative;
     display: flex;
     justify-content: space-evenly;
-    height: 350px;
+    height: $slide_height;
+
+    .current-temp-hum {
+        display: flex;
+        align-items: flex-end;
+        flex-direction: column;
+        & > div {
+            display: flex;
+            margin-bottom: 20px;            
+            span {
+                margin-right: 10px;
+                font-size: 2em;
+            }
+        }
+    }
     
     p {
         margin: 0;

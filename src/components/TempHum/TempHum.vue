@@ -1,9 +1,9 @@
 <template>
 <div class="temp-section">	
     <div class="temps" v-if="maxMinLoaded && current.temperature">
-        <div class="today">
+        <div class="today" @click="setCurrentSlide(0)">
             <div class="current">
-                {{current.temperature}}&deg;C
+                {{current.temperature}}&deg;
             </div>
             <div>
                 <div>{{maxMinToday.temperature.max}}&deg;</div>
@@ -38,7 +38,8 @@ export default {
 	},
 	methods: {
         ...mapActions([
-			'setCurrentTemp', 			
+			'setCurrentTemp', 	
+            'setCurrentSlide'		
 		]),
 		getCurrent: function () {            
 			axios

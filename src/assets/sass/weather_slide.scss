@@ -1,6 +1,8 @@
+@import 'variables';
+
 .weather-slide {
     position: relative;
-    height: 350px;
+    height: $slide_height;
 }
 .chart {
 	position: absolute;
@@ -11,10 +13,22 @@
 .weather-text {
     width: 100%;
     display: flex;
-    justify-content: space-evenly;
-    padding: 10px;
+    justify-content: center;    
+    padding-top: 50px 0 0;
     
     h1, p {
         margin: 0;
     }
+
+    .temp-hum {
+        font-size: 2em;
+        padding: 10px;
+        text-align: right;
+    }
+    
+    .weather-info {
+        text-align: left;
+        padding: 10px;
+    }
 }
+
