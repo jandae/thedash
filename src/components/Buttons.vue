@@ -10,7 +10,7 @@
 		<img :src="'icons/tv.png'"/>
 	</button>
 	<div class="fan trio">
-		<button :class="'speed'" v-on:click="action('fan','speed')">
+		<button :class="'speed'" v-on:click="action('fan/speed', 'toggle')" :disabled="states.fan != 'ON'">
 			<img :src="'icons/speed.png'"/>
 		</button>
 		<button :class="states.fan" v-on:click="action('fan','toggle')">
@@ -20,10 +20,10 @@
 			<span v-for="i in 3" :key="i" :class="{'active':i-1 < states.speed}"></span>			
 		</div>		
 	</div>
-	<button :class="{'ON':states.swing == 'ON'}" :disabled="states.fan != 'ON'" v-on:click="action('fan','swing')">
+	<button :class="{'ON':states.swing == 'ON'}" :disabled="states.fan != 'ON'" v-on:click="action('fan/swing','toggle')">
 		<img :src="'icons/swing.png'"/>
 	</button>	
-	<button :class="{'ON':states.cool == 'ON'}" :disabled="states.fan != 'ON'" v-on:click="action('fan','cool')">
+	<button :class="{'ON':states.cool == 'ON'}" :disabled="states.fan != 'ON'" v-on:click="action('fan/cool','toggle')">
 		<img :src="'icons/cool.png'"/>
 	</button>
 	<button v-on:click="setVidVis()">
