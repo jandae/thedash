@@ -1,6 +1,7 @@
 <template>							
 	<div class="video">
-		<iframe src="http://192.168.100.77:8080/video" height="100%"></iframe>
+        {{configs.camera2}}
+		<iframe :src="configs.camera2" height="100%"></iframe>
 		<div class="current-job" v-if="has_loaded && current_job">						
 			<strong>{{current_job.job.file.name}}</strong>				
 			<p>Estimated time: {{estimated_time}}</p>			
@@ -18,6 +19,7 @@
 <script>
 import axios from 'axios'
 import * as moment from "moment/moment";
+import { mapGetters } from 'vuex'
 
 let octo_key = process.env.VUE_APP_OCTO_KEY
 let octo_url = process.env.VUE_APP_OCTO_URL
@@ -67,7 +69,9 @@ export default {
 		}, 60000)
 	},
 	computed: {
-			
+        ...mapGetters([
+            'configs'
+        ])
 	},
 	watch: {
 		

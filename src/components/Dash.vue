@@ -38,8 +38,9 @@
 				<image-slider/>
 			</div>
 		</div>
-
-		<video-feed/>
+        <template v-if="configs.length">
+            <video-feed v-if="configs.buttons[6].status"/>
+        </template>
 
 		<button-panel v-if="panelVis"/>
 
@@ -81,7 +82,8 @@ export default {
 	methods: {
 		...mapActions([
             'setPanelVis',
-			'setCurrentSlide'   
+			'setCurrentSlide',
+            'setConfig'   
         ]),
 		changeStuff: function (page) {
 			this.page = page
@@ -101,6 +103,8 @@ export default {
 	},
 	mounted() {
 		this.setCurrentTime()
+        
+        this.setConfig()
 
 		setInterval(() =>{
 			this.setCurrentTime()
@@ -113,7 +117,8 @@ export default {
 			'outsideTemp',
             'states',
 			'panelVis',
-			'currentSlide'        
+			'currentSlide',        
+            'configs'
         ])
 	},
 	watch: {

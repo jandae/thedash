@@ -7,7 +7,7 @@
 				<button @click="callAction(`strip/${k}`, 'ON')">ON</button>
 				<button @click="callAction(`strip/${k}`, 'OFF')">OFF</button>
 			</template>
-			<template v-else-if="fan_stuff.includes(k)">
+			<template v-else-if="configs.fan_stuff.includes(k)">
 				<template v-if="k != 'speed'">
 					<button @click="callAction(`fan/${k}`, 'ON')">State ON</button>
 					<button @click="callAction(`fan/${k}`, 'OFF')">State OFF</button>
@@ -35,7 +35,6 @@ export default {
 	},
 	data () {
 		return {	
-			fan_stuff: ['speed', 'swing', 'cool'],
 			buttons: []
 		}
 	},
@@ -64,7 +63,8 @@ export default {
 	computed: {
 		...mapGetters([
             'panelVis', 
-			'states'        
+			'states',
+            'configs'        
         ])	
 	},
 	watch: {

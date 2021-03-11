@@ -1,6 +1,22 @@
 <template>
 <div class="buttons">				
-	<button :class="states.strip1" v-on:click="action('strip/strip1', 'toggle')">
+    <div v-for="button in configs.buttons" :key="button.device" :class="button.class">
+        <button :class="button.extra[0].class" v-on:click="action(button.extra[0].device, button.extra[0].action)" :disabled="states[button.device] != 'ON'" v-if="button.extra">
+			<img :src="button.extra[0].icon"/>
+		</button>
+        <button :class="states[button.device]+' '+states[button.state]" v-on:click="action(button.device, button.action)">
+            <img :src="button.icon"/>
+        </button>
+        <template v-if="button.extra">
+            <div :class="button.extra[1].class" v-if="button.extra[1] && button.extra[1].action == 'indicator'">						
+                <span v-for="i in 3" :key="i" 
+                    :class="[
+                    i-1 < states[button.extra[1].state]?'active':''
+                    ]"></span>	
+            </div>	
+        </template>
+    </div>
+	<!-- <button :class="states.strip1" v-on:click="action('strip/strip1', 'toggle')">
 		<img :src="'icons/charge.png'"/>
 	</button>
 	<button :class="states.strip2" v-on:click="action('strip/strip2', 'toggle')">
@@ -31,7 +47,7 @@
 	</button>
 	<button v-on:click="action('sleep')">
 		<img :src="'icons/sleep.png'"/>
-	</button>
+	</button> -->
 </div>
 </template>
 
@@ -64,11 +80,16 @@ export default {
 		},
 		action: function (device, action) {			
 			action = action ? action : ''
-			axios
-				.get(`${server_api}/${device}/${action}`)
-				.then(response => {											
-					this.setStates(response.data)					
-				})
+            
+            if (device == "camera1") {
+                this.setVidVis()        
+            } else {
+                axios
+                    .get(`${server_api}/${device}/${action}`)
+                    .then(response => {											
+                        this.setStates(response.data)					
+                    })    
+            }
 		}
 	},
 	mounted () {	
@@ -81,7 +102,8 @@ export default {
 	},
 	computed: {		
 		...mapGetters([
-			'states'        
+			'states',
+            'configs'        
 		]),
 	}
 }

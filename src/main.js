@@ -18,7 +18,8 @@ const store = new Vuex.Store({
 		vid_vis: false ,
 		panel_vis: false,
 		outside_temp: '',
-		current_slide: 0
+		current_slide: 0,
+        configs: []
 	},
 	getters: {
 		currentTemp: state => {
@@ -47,6 +48,9 @@ const store = new Vuex.Store({
 		},
 		currentSlide: state => {
 			return state.current_slide
+		},
+        configs: state => {
+			return state.configs
 		},
 	},
 	mutations: {
@@ -111,7 +115,13 @@ const store = new Vuex.Store({
 		setCurrentSlide (state, val) {						
 			state.current_slide = val
 		},
-
+		setConfig (state) {						
+            axios
+				.get(`${server_api}/configs`)
+				.then(response => {			
+					state.configs = response.data 
+				})
+		},
 	},
 	actions: {
 		setCurrentTemp (context, data) {			
@@ -143,6 +153,9 @@ const store = new Vuex.Store({
 		},
 		setCurrentSlide (context, val) {						
 			context.commit('setCurrentSlide', val)	
+		},
+        setConfig (context) {						
+			context.commit('setConfig')	
 		}
 	}
 })
