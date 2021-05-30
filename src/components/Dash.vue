@@ -11,7 +11,7 @@
 				</p>
 			</div>    			
             <div class="slider-nav">				                
-				<button v-if="states.octopi == 'ON'" @click="goToSlide(3)">4</button>        
+				<button v-if="states.octopi == 'ON'" @click="goToSlide(3)">Printer</button>        
 				<button @click="setPanelVis()" class="panel-button icon-btn" :class="{'active': panelVis}"><img src="/icons/play.png"/></button>
 				<span @click="goToSlide(1)" class="outside">{{outsideTemp}}&deg;</span>        
             </div>
@@ -27,8 +27,8 @@
 					</slide>
 					<slide>
 						<calendar :page="page"/>
-					</slide>
-					<slide v-if="states.octopi == 'ON'">
+					</slide>					
+					<slide v-if="states.octopi == 'ON'">						
 						<printer :page="page"/>
 					</slide>
 				</carousel>

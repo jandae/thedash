@@ -1,12 +1,12 @@
 // @include pressable;
 @mixin pressable {
-	transform: scale(1);
+	// transform: scale(1);
 	opacity: 1;
 
 	&:active {
 		background: #fff;
 		color: #1d1d1d;
 		opacity: 0.6;
-		transform: scale(0.6);
+		// transform: scale(0.6);
 	}
 }
