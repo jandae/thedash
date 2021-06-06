@@ -1,6 +1,6 @@
 <template>							
-	<div class="feed-wrap" v-if="motion && vidVis">					
-        <img :src="configs.camera1" v-on:click="setVidVis(false)"/>		
+	<div class="feed-wrap" v-if="motion || vidVis">					
+        <img :src="configs.camera1" v-on:click="hideVideo()"/>		
     </div>		
 </template>
 
@@ -19,6 +19,10 @@ export default {
 		...mapActions([			
 			'setVidVis'			
 		]),
+		hideVideo(){
+			this.motion = false
+			this.setVidVis(false)	
+		},
 		ws_motion: function () {
 			let $this = this
 			console.log("Connecting to monty WebSocket Server")			
