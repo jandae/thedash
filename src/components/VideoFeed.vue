@@ -1,46 +1,52 @@
 <template>							
-	<div class="feed-wrap" v-if="motion || vidVis">			
-        <iframe class="feed" :src="configs.camera1" height="100%"></iframe>
+	<div class="feed-wrap" v-if="motion && vidVis">					
+        <img :src="configs.camera1" v-on:click="setVidVis(false)"/>		
     </div>		
 </template>
 
 <script>
-import axios from 'axios'
 import { mapGetters, mapActions } from 'vuex'
-
-let server_api = process.env.VUE_APP_RED_SERVER_URL
 
 export default {	
 	components: {		
 	},
 	data () {
 		return {	
-			motion: 0,			
+			motion: false	
 		}
 	},
 	methods: {
 		...mapActions([			
 			'setVidVis'			
 		]),
-        isMotion: function () {
-			axios
-				.get(`${server_api}/motion/status`)
-				.then(response => {
-					this.motion = response.data	
-				})
-		},
-		hideMotion: function () {			
-			this.setVidVis(false)			
+		ws_motion: function () {
+			let $this = this
+			console.log("Connecting to monty WebSocket Server")			
+			this.connection = new WebSocket(this.configs.motion_1)
 
+			this.connection.onmessage = function(event) {
+				console.log(event);				
+				if (event.data == 1) {
+					console.log('motion detected')
+					$this.motion = true
+					$this.setVidVis(true)	
+				} else {
+					$this.motion = false
+					$this.setVidVis(false)	
+				}
+			}
+
+			this.connection.onopen = function() {				
+				console.log("Successfully connected to monty websocket server...")
+			}
 		}
 	},
 	mounted() {
-		this.isMotion()
 		let $this = this
-
-		setInterval(() => {
-			$this.isMotion()
-		}, 5000)
+		// wait for config first
+		setTimeout(function(){
+			$this.ws_motion()
+		}, 1000)
 	},
 	computed: {
 		...mapGetters([

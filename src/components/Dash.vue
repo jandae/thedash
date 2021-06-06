@@ -38,10 +38,10 @@
 				<image-slider/>
 			</div>
 		</div>
-        <template v-if="configs.length">
-            <video-feed v-if="configs.buttons[6].status"/>
+        <template>
+            <video-feed/>
         </template>
-
+		
 		<button-panel v-if="panelVis"/>
 
 		<buttons/>
@@ -76,7 +76,9 @@ export default {
 			current_time: '',
 			current_date: moment().format('MMMM D'),
             current_slide: 0,			
-			autoplay: true
+			autoplay: true,
+			connection: null,
+			
 		}
 	},
 	methods: {
@@ -101,10 +103,10 @@ export default {
 			}, 2000)
         }
 	},
-	mounted() {
+	mounted() {		
 		this.setCurrentTime()
         
-        this.setConfig()
+        this.setConfig()			
 
 		setInterval(() =>{
 			this.setCurrentTime()
@@ -128,6 +130,9 @@ export default {
 		current_slide () {
 			this.setCurrentSlide(this.current_slide)
 		}
+	},
+	created: function () {
+		
 	}
 }
 </script>
