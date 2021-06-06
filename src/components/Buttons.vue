@@ -1,6 +1,6 @@
 <template>
 <div class="buttons">				
-    <div v-for="button in configs.buttons" :key="button.device" :class="button.class">
+    <div v-for="button in buttons" :key="button.device" :class="button.class">
         <button :class="button.extra[0].class" v-on:click="action(button.extra[0].device, button.extra[0].action)" :disabled="states[button.device] != 'ON'" v-if="button.extra">
 			<img :src="button.extra[0].icon"/>
 		</button>
@@ -63,7 +63,8 @@ export default {
 	data () {
 		return {			
 			fan: 'OFF',
-			tv: 'OFF'			
+			tv: 'OFF',
+			buttons: []			
         }
 	},
 	methods: {
@@ -95,6 +96,10 @@ export default {
 	mounted () {	
 		this.getStates()	
 		let $this = this
+
+		setTimeout(function(){
+			$this.buttons = $this.configs.buttons
+		},1000)
 
 		setInterval(() => {
 			$this.getStates()
